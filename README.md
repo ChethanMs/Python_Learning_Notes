@@ -9,8 +9,8 @@ It's a single HTML file covering ALL core Python concepts with:
 📚 Topics covered:
 Comments · Print · Escape Sequences · Variables · Input · Data Types · Strings · Math Functions · Control Flow · Boolean Logic · Operators · If / Elif / Else · Break & Continue · For Loops · While Loops · Nested Loops
 
-🔗 Live Demo → https://YOUR-USERNAME.github.io/Python_Learning_Notes/python_visual_guide.html
-⭐ GitHub Repo → https://github.com/YOUR-USERNAME/Python_Learning_Notes
+🔗 Live Demo → https://ChethanMs.github.io/Python_Learning_Notes/python_visual_guide.html
+⭐ GitHub Repo → https://github.com/ChethanMs/Python_Learning_Notes
 
 Perfect for beginners or anyone who wants a quick visual Python reference!
 
