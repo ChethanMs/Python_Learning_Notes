@@ -1,29 +1,17 @@
-# Python Learning Notes
+🐍 Just added an interactive Python Visual Guide to my Python Learning Notes!
 
-This repository contains my learning notes and examples while studying Python programming.
+It's a single HTML file covering ALL core Python concepts with:
+✅ Animated diagrams & flowcharts
+✅ Syntax-highlighted code examples
+✅ Live output previews
+✅ Visual truth tables, loop tracers & type grids
 
-## Topics Covered
+📚 Topics covered:
+Comments · Print · Escape Sequences · Variables · Input · Data Types · Strings · Math Functions · Control Flow · Boolean Logic · Operators · If / Elif / Else · Break & Continue · For Loops · While Loops · Nested Loops
 
-Basic Python Fundamentals including:
+🔗 Live Demo → https://YOUR-USERNAME.github.io/Python_Learning_Notes/python_visual_guide.html
+⭐ GitHub Repo → https://github.com/YOUR-USERNAME/Python_Learning_Notes
 
-- Variables
-- Data Types
-- Type Conversion
-- Arithmetic Operators
-- Input and Output
-- String Concatenation
-- String Repetition
-- String Length
-- String Indexing
-- Escape Sequences
-- String Formatting
-- Comments
-- Logical Operators
+Perfect for beginners or anyone who wants a quick visual Python reference!
 
-## Purpose
-
-The purpose of this repository is to document my Python learning journey and practice coding fundamentals.
-
-## Author
-
-Chethan M S
+#Python #LearnPython #Programming #100DaysOfCode #OpenSource #GitHub
