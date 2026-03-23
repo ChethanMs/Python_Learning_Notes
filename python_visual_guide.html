@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Visual Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #1a2236;
+    --border: #2a3a5c;
+    --accent1: #38bdf8;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --accent4: #fb923c;
+    --accent5: #f472b6;
+    --accent6: #facc15;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --code-bg: #0d1117;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(56,189,248,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #38bdf820, #a78bfa20);
+    border: 1px solid var(--border);
+    color: var(--accent1);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    animation: fadeDown 0.6s ease both;
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #38bdf8, #a78bfa, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    animation: fadeDown 0.7s 0.1s ease both;
+  }
+  .hero p {
+    color: var(--muted);
+    margin-top: 14px;
+    font-size: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    animation: fadeDown 0.7s 0.2s ease both;
+  }
+
+  /* NAV PILLS */
+  .nav-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 20px 40px;
+    animation: fadeDown 0.7s 0.3s ease both;
+  }
+  .nav-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .nav-pill:hover { border-color: var(--accent1); color: var(--accent1); background: rgba(56,189,248,0.08); }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    animation: cardIn 0.5s ease forwards;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .card:nth-child(1)  { animation-delay: 0.05s; }
+  .card:nth-child(2)  { animation-delay: 0.10s; }
+  .card:nth-child(3)  { animation-delay: 0.15s; }
+  .card:nth-child(4)  { animation-delay: 0.20s; }
+  .card:nth-child(5)  { animation-delay: 0.25s; }
+  .card:nth-child(6)  { animation-delay: 0.30s; }
+  .card:nth-child(7)  { animation-delay: 0.35s; }
+  .card:nth-child(8)  { animation-delay: 0.40s; }
+  .card:nth-child(9)  { animation-delay: 0.45s; }
+  .card:nth-child(10) { animation-delay: 0.50s; }
+  .card:nth-child(11) { animation-delay: 0.55s; }
+  .card:nth-child(12) { animation-delay: 0.60s; }
+  .card:nth-child(13) { animation-delay: 0.65s; }
+  .card:nth-child(14) { animation-delay: 0.70s; }
+  .card:nth-child(15) { animation-delay: 0.75s; }
+  .card:nth-child(16) { animation-delay: 0.80s; }
+  .card:nth-child(17) { animation-delay: 0.85s; }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .card-tag {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    opacity: 0.7;
+  }
+
+  .card-body { padding: 18px 20px; }
+
+  .desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid #1e2d40;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  .code-top {
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-bottom: 1px solid #1e2d40;
+    gap: 6px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+  .code-label {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  pre {
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* Syntax colors */
+  .kw   { color: #c792ea; }   /* keyword */
+  .fn   { color: #82aaff; }   /* function */
+  .str  { color: #c3e88d; }   /* string */
+  .num  { color: #f78c6c; }   /* number */
+  .cmt  { color: #546e7a; font-style: italic; } /* comment */
+  .var  { color: #f07178; }   /* variable */
+  .op   { color: #89ddff; }   /* operator */
+  .bool { color: #ffcb6b; }   /* boolean */
+  .esc  { color: #f78c6c; }   /* escape */
+  .out  { color: #a6accd; }   /* output */
+
+  /* OUTPUT BOX */
+  .output-box {
+    background: #0a1628;
+    border: 1px solid #1e2d40;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #a6e3a1;
+  }
+  .output-label {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* DIAGRAM / FLOW */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .flow-box {
+    flex: 1;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-align: center;
+    border: 1px solid;
+  }
+  .flow-arrow {
+    color: var(--muted);
+    font-size: 16px;
+    text-align: center;
+    padding: 2px 0;
+  }
+  .diamond {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    padding: 20px 30px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+
+  /* TYPE PILLS */
+  .type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .type-pill {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .type-pill .type-name { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+  .type-pill .type-ex { opacity: 0.7; }
+
+  /* OPERATOR TABLE */
+  .op-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .op-table th, .op-table td {
+    padding: 7px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+  .op-table th { color: var(--muted); font-size: 10px; text-transform: uppercase; }
+  .op-table td:first-child { color: var(--accent1); }
+
+  /* LOOP VISUALIZER */
+  .loop-vis {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .loop-cell {
+    width: 34px; height: 34px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid;
+    opacity: 0;
+    animation: popIn 0.3s ease forwards;
+  }
+  .loop-cell:nth-child(1) { animation-delay: 0.8s; }
+  .loop-cell:nth-child(2) { animation-delay: 1.0s; }
+  .loop-cell:nth-child(3) { animation-delay: 1.2s; }
+  .loop-cell:nth-child(4) { animation-delay: 1.4s; }
+  .loop-cell:nth-child(5) { animation-delay: 1.6s; }
+
+  /* NESTED LOOP GRID */
+  .nested-grid {
+    display: inline-grid;
+    grid-template-columns: repeat(3, 38px);
+    gap: 4px;
+    margin-top: 14px;
+  }
+  .nested-cell {
+    width: 38px; height: 38px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    border: 1px solid;
+    opacity: 0;
+    animation: popIn 0.3s ease forwards;
+  }
+
+  /* ESCAPE VIS */
+  .esc-list { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .esc-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px;
+    background: var(--code-bg);
+    border-radius: 8px;
+    border: 1px solid #1e2d40;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .esc-key { color: #f78c6c; min-width: 30px; }
+  .esc-val { color: var(--muted); font-size: 11px; }
+
+  /* MATH FUNC */
+  .math-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 12px; }
+  .math-item {
+    background: var(--code-bg);
+    border: 1px solid #1e2d40;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .math-fn { color: #82aaff; margin-bottom: 2px; }
+  .math-res { color: #a6e3a1; font-size: 10px; }
+
+  /* BOOL VIS */
+  .bool-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .bool-box {
+    padding: 10px 8px;
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    border: 1px solid;
+  }
+  .bool-op { font-size: 10px; margin-bottom: 4px; opacity: 0.7; }
+  .bool-val { font-size: 13px; font-weight: 700; }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  @keyframes slideRight {
+    from { width: 0; }
+    to   { width: 100%; }
+  }
+  @keyframes typewriter {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0% 0 0); }
+  }
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 6px rgba(56,189,248,0.3); }
+    50% { box-shadow: 0 0 18px rgba(56,189,248,0.7); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  .shimmer-text {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3), var(--accent1));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+  }
+
+  .glow-card:hover { animation: glow 2s infinite; border-color: var(--accent1) !important; }
+
+  /* COLOR THEMES PER CARD */
+  .c1 { --cc: var(--accent1); }
+  .c2 { --cc: var(--accent2); }
+  .c3 { --cc: var(--accent3); }
+  .c4 { --cc: var(--accent4); }
+  .c5 { --cc: var(--accent5); }
+  .c6 { --cc: var(--accent6); }
+
+  .card:hover { border-color: var(--cc, var(--accent1)); }
+  .card-icon  { background: color-mix(in srgb, var(--cc, var(--accent1)) 15%, transparent); }
+  .card-title { color: var(--cc, var(--accent1)); }
+  .card-tag   { background: color-mix(in srgb, var(--cc, var(--accent1)) 12%, transparent);
+                color: var(--cc, var(--accent1));
+                border: 1px solid color-mix(in srgb, var(--cc, var(--accent1)) 30%, transparent); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* PROGRESS BAR ANIM */
+  .prog-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    border-radius: 2px;
+    animation: slideRight 1.5s 1s ease both;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🐍 PYTHON VISUAL REFERENCE</div>
+  <h1>Python<br><span class="shimmer-text">Concept Guide</span></h1>
+  <p>// interactive diagrams + live examples for every core concept</p>
+</div>
+
+<!-- NAV -->
+<div class="nav-bar">
+  <a class="nav-pill" href="#comments">Comments</a>
+  <a class="nav-pill" href="#print">Print</a>
+  <a class="nav-pill" href="#escape">Escape Seq</a>
+  <a class="nav-pill" href="#variables">Variables</a>
+  <a class="nav-pill" href="#input">Input</a>
+  <a class="nav-pill" href="#datatypes">Data Types</a>
+  <a class="nav-pill" href="#strings">Strings</a>
+  <a class="nav-pill" href="#math">Math</a>
+  <a class="nav-pill" href="#flow">Control Flow</a>
+  <a class="nav-pill" href="#boolean">Boolean</a>
+  <a class="nav-pill" href="#operators">Operators</a>
+  <a class="nav-pill" href="#ifelse">If/Elif/Else</a>
+  <a class="nav-pill" href="#break">Break</a>
+  <a class="nav-pill" href="#for">For Loop</a>
+  <a class="nav-pill" href="#while">While Loop</a>
+  <a class="nav-pill" href="#nested">Nested Loops</a>
+</div>
+
+<!-- GRID -->
+<div class="grid">
+
+  <!-- 1. COMMENTS -->
+  <div class="card c1 glow-card" id="comments">
+    <div class="card-header">
+      <div class="card-icon">💬</div>
+      <div class="card-title">Comments</div>
+      <div class="card-tag"># syntax</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Comments are notes in code ignored by Python. Use <code>#</code> for single-line and triple quotes for multi-line.</div>
+      <div class="code-block">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">comments.py</div></div>
+        <pre><span class="cmt"># This is a single-line comment</span>
+<span class="var">name</span> <span class="op">=</span> <span class="str">"Python"</span>  <span class="cmt"># inline comment</span>
+
+<span class="str">"""
+This is a
+multi-line comment
+(docstring)
+"""</span>
+
+<span class="fn">print</span>(<span class="var">name</span>)</pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        Python
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. PRINT FUNCTION -->
+  <div class="card c2 glow-card" id="print">
+    <div class="card-header">
+      <div class="card-icon">🖨️</div>
+      <div class="card-title">Print Function</div>
+      <div class="card-tag">built-in</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Outputs values to the console. Supports <code>sep</code>, <code>end</code>, and f-strings for formatting.</div>
+      <div class="code-block">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">print.py</div></div>
+        <pre><span class="fn">print</span>(<span class="str">"Hello, World!"</span>)
+<span class="fn">print</span>(<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>, sep<span class="op">=</span><span class="str">"-"</span>)
+<span class="fn">print</span>(<span class="str">"no newline"</span>, end<span class="op">=</span><span class="str">""</span>)
+<span class="fn">print</span>(<span class="str">" same line"</span>)
+
+<span class="var">age</span> <span class="op">=</span> <span class="num">25</span>
+<span class="fn">print</span>(<span class="str">f"Age: <span class="op">{</span><span class="var">age</span><span class="op">}</span>"</span>)  <span class="cmt"># f-string</span></pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        Hello, World!<br>a-b-c<br>no newline same line<br>Age: 25
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ESCAPE SEQUENCES -->
+  <div class="card c3 glow-card" id="escape">
+    <div class="card-header">
+      <div class="card-icon">🔤</div>
+      <div class="card-title">Escape Sequences</div>
+      <div class="card-tag">\ prefix</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Special characters inside strings using backslash notation.</div>
+      <div class="esc-list">
+        <div class="esc-item"><span class="esc-key">\n</span><span class="esc-val">New line</span></div>
+        <div class="esc-item"><span class="esc-key">\t</span><span class="esc-val">Tab space</span></div>
+        <div class="esc-item"><span class="esc-key">\\</span><span class="esc-val">Backslash</span></div>
+        <div class="esc-item"><span class="esc-key">\'</span><span class="esc-val">Single quote</span></div>
+        <div class="esc-item"><span class="esc-key">\"</span><span class="esc-val">Double quote</span></div>
+      </div>
+      <div class="code-block" style="margin-top:12px">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">escape.py</div></div>
+        <pre><span class="fn">print</span>(<span class="str">"Line1<span class="esc">\n</span>Line2"</span>)
+<span class="fn">print</span>(<span class="str">"Col1<span class="esc">\t</span>Col2"</span>)
+<span class="fn">print</span>(<span class="str">"She said <span class="esc">\"</span>Hi<span class="esc">\"</span>"</span>)</pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        Line1<br>Line2<br>Col1&nbsp;&nbsp;&nbsp;&nbsp;Col2<br>She said "Hi"
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. VARIABLES -->
+  <div class="card c4 glow-card" id="variables">
+    <div class="card-header">
+      <div class="card-icon">📦</div>
+      <div class="card-title">Variables</div>
+      <div class="card-tag">binding</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Named containers that store values. Python is dynamically typed — no declaration needed.</div>
+      <div class="flow">
+        <div class="flow-row">
+          <div class="flow-box" style="background:#1e3a5f;border-color:#38bdf8;color:#38bdf8">name = "Ada"</div>
+          <span>→</span>
+          <div class="flow-box" style="background:#1e2d40;border-color:#546e7a;color:#94a3b8">memory slot</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-box" style="background:#2d1e3a;border-color:#a78bfa;color:#a78bfa">age = 30</div>
+          <span>→</span>
+          <div class="flow-box" style="background:#1e2d40;border-color:#546e7a;color:#94a3b8">memory slot</div>
+        </div>
+      </div>
+      <div class="code-block" style="margin-top:12px">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">variables.py</div></div>
+        <pre><span class="var">x</span> <span class="op">=</span> <span class="num">10</span>           <span class="cmt"># int</span>
+<span class="var">pi</span> <span class="op">=</span> <span class="num">3.14</span>        <span class="cmt"># float</span>
+<span class="var">name</span> <span class="op">=</span> <span class="str">"Ada"</span>    <span class="cmt"># string</span>
+<span class="var">active</span> <span class="op">=</span> <span class="bool">True</span>  <span class="cmt"># bool</span>
+
+<span class="cmt"># Multiple assignment</span>
+<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span> <span class="op">=</span> <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>
+<span class="fn">print</span>(<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span>)</pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        1 2 3
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. INPUT FUNCTION -->
+  <div class="card c5 glow-card" id="input">
+    <div class="card-header">
+      <div class="card-icon">⌨️</div>
+      <div class="card-title">Input Function</div>
+      <div class="card-tag">user input</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Reads a line from the user. Always returns a <strong>string</strong> — cast with <code>int()</code> or <code>float()</code> as needed.</div>
+      <div class="flow">
+        <div class="flow-row">
+          <div class="flow-box" style="background:#2d1e3a;border-color:#f472b6;color:#f472b6">User types</div>
+          <span>→</span>
+          <div class="flow-box" style="background:#1e3a2d;border-color:#34d399;color:#34d399">input()</div>
+          <span>→</span>
+          <div class="flow-box" style="background:#1e2d40;border-color:#546e7a;color:#94a3b8">string</div>
+        </div>
+      </div>
+      <div class="code-block" style="margin-top:12px">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">input.py</div></div>
+        <pre><span class="var">name</span> <span class="op">=</span> <span class="fn">input</span>(<span class="str">"Enter name: "</span>)
+<span class="var">age</span>  <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Enter age: "</span>))
+
+<span class="fn">print</span>(<span class="str">f"Hello <span class="op">{</span><span class="var">name</span><span class="op">}</span>, age <span class="op">{</span><span class="var">age</span><span class="op">}</span>"</span>)</pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Sample Run</div>
+        Enter name: Ada<br>Enter age: 30<br>Hello Ada, age 30
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. DATA TYPES -->
+  <div class="card c6 glow-card" id="datatypes">
+    <div class="card-header">
+      <div class="card-icon">🗂️</div>
+      <div class="card-title">Data Types</div>
+      <div class="card-tag">type()</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Python's built-in types determine what operations are valid on a value.</div>
+      <div class="type-grid">
+        <div class="type-pill" style="border-color:#38bdf840;background:#38bdf808">
+          <div class="type-name" style="color:#38bdf8">int</div>
+          <div class="type-ex">42, -7, 0</div>
+        </div>
+        <div class="type-pill" style="border-color:#a78bfa40;background:#a78bfa08">
+          <div class="type-name" style="color:#a78bfa">float</div>
+          <div class="type-ex">3.14, -0.5</div>
+        </div>
+        <div class="type-pill" style="border-color:#34d39940;background:#34d39908">
+          <div class="type-name" style="color:#34d399">str</div>
+          <div class="type-ex">"hello"</div>
+        </div>
+        <div class="type-pill" style="border-color:#ffcb6b40;background:#ffcb6b08">
+          <div class="type-name" style="color:#ffcb6b">bool</div>
+          <div class="type-ex">True, False</div>
+        </div>
+        <div class="type-pill" style="border-color:#fb923c40;background:#fb923c08">
+          <div class="type-name" style="color:#fb923c">list</div>
+          <div class="type-ex">[1, 2, 3]</div>
+        </div>
+        <div class="type-pill" style="border-color:#f472b640;background:#f472b608">
+          <div class="type-name" style="color:#f472b6">tuple</div>
+          <div class="type-ex">(1, 2, 3)</div>
+        </div>
+        <div class="type-pill" style="border-color:#38bdf840;background:#38bdf808">
+          <div class="type-name" style="color:#38bdf8">dict</div>
+          <div class="type-ex">{"a": 1}</div>
+        </div>
+        <div class="type-pill" style="border-color:#a78bfa40;background:#a78bfa08">
+          <div class="type-name" style="color:#a78bfa">NoneType</div>
+          <div class="type-ex">None</div>
+        </div>
+      </div>
+      <div class="code-block" style="margin-top:12px">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">types.py</div></div>
+        <pre><span class="fn">print</span>(<span class="fn">type</span>(<span class="num">42</span>))      <span class="cmt"># &lt;class 'int'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="str">"hi"</span>))   <span class="cmt"># &lt;class 'str'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="bool">True</span>))   <span class="cmt"># &lt;class 'bool'&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. STRINGS -->
+  <div class="card c1 glow-card" id="strings">
+    <div class="card-header">
+      <div class="card-icon">🔡</div>
+      <div class="card-title">Strings</div>
+      <div class="card-tag">str methods</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Immutable sequences of characters. Rich built-in method library for manipulation.</div>
+      <div class="code-block">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">strings.py</div></div>
+        <pre><span class="var">s</span> <span class="op">=</span> <span class="str">"Hello, Python!"</span>
+
+<span class="fn">print</span>(<span class="var">s</span>[<span class="num">0</span>])         <span class="cmt"># H (indexing)</span>
+<span class="fn">print</span>(<span class="var">s</span>[<span class="num">0</span>:<span class="num">5</span>])       <span class="cmt"># Hello (slice)</span>
+<span class="fn">print</span>(<span class="var">s</span>.upper())    <span class="cmt"># HELLO, PYTHON!</span>
+<span class="fn">print</span>(<span class="var">s</span>.lower())    <span class="cmt"># hello, python!</span>
+<span class="fn">print</span>(<span class="var">s</span>.replace(<span class="str">"Hello"</span>, <span class="str">"Hi"</span>))
+<span class="fn">print</span>(<span class="var">s</span>.split(<span class="str">", "</span>))
+<span class="fn">print</span>(<span class="fn">len</span>(<span class="var">s</span>))       <span class="cmt"># 14</span></pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        H &nbsp;|&nbsp; Hello &nbsp;|&nbsp; HELLO, PYTHON! &nbsp;|&nbsp; hello, python!<br>Hi, Python!<br>['Hello', 'Python!'] &nbsp;|&nbsp; 14
+      </div>
+      <div style="margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">
+        Indexing:&nbsp;
+        <span style="display:inline-flex;gap:2px">
+          <span style="background:#1e3a5f;color:#38bdf8;padding:2px 6px;border-radius:4px;border:1px solid #38bdf840">H</span>
+          <span style="background:#2d1e3a;color:#a78bfa;padding:2px 6px;border-radius:4px;border:1px solid #a78bfa40">e</span>
+          <span style="background:#1e3a2d;color:#34d399;padding:2px 6px;border-radius:4px;border:1px solid #34d39940">l</span>
+          <span style="background:#3a2d1e;color:#fb923c;padding:2px 6px;border-radius:4px;border:1px solid #fb923c40">l</span>
+          <span style="background:#3a1e2d;color:#f472b6;padding:2px 6px;border-radius:4px;border:1px solid #f472b640">o</span>
+        </span>&nbsp;
+        <span style="color:#546e7a">0&nbsp;&nbsp;1&nbsp;&nbsp;2&nbsp;&nbsp;3&nbsp;&nbsp;4</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. MATH FUNCTIONS -->
+  <div class="card c2 glow-card" id="math">
+    <div class="card-header">
+      <div class="card-icon">🔢</div>
+      <div class="card-title">Number & Math Mastery</div>
+      <div class="card-tag">math module</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Arithmetic operators and the <code>math</code> module for advanced operations.</div>
+      <div class="math-grid">
+        <div class="math-item"><div class="math-fn">abs(-7)</div><div class="math-res">→ 7</div></div>
+        <div class="math-item"><div class="math-fn">round(3.7)</div><div class="math-res">→ 4</div></div>
+        <div class="math-item"><div class="math-fn">math.sqrt(16)</div><div class="math-res">→ 4.0</div></div>
+        <div class="math-item"><div class="math-fn">math.pow(2,8)</div><div class="math-res">→ 256.0</div></div>
+        <div class="math-item"><div class="math-fn">math.floor(3.9)</div><div class="math-res">→ 3</div></div>
+        <div class="math-item"><div class="math-fn">math.ceil(3.1)</div><div class="math-res">→ 4</div></div>
+        <div class="math-item"><div class="math-fn">max(1,5,3)</div><div class="math-res">→ 5</div></div>
+        <div class="math-item"><div class="math-fn">min(1,5,3)</div><div class="math-res">→ 1</div></div>
+      </div>
+      <div class="code-block" style="margin-top:12px">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">math.py</div></div>
+        <pre><span class="kw">import</span> math
+
+<span class="fn">print</span>(<span class="num">10</span> <span class="op">**</span> <span class="num">2</span>)         <span class="cmt"># 100 (power)</span>
+<span class="fn">print</span>(<span class="num">17</span> <span class="op">%</span> <span class="num">5</span>)          <span class="cmt"># 2  (modulo)</span>
+<span class="fn">print</span>(<span class="num">7</span> <span class="op">//</span> <span class="num">2</span>)          <span class="cmt"># 3  (floor div)</span>
+<span class="fn">print</span>(math.pi)        <span class="cmt"># 3.14159...</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. CONTROL FLOW -->
+  <div class="card c3 glow-card" id="flow">
+    <div class="card-header">
+      <div class="card-icon">🔀</div>
+      <div class="card-title">Python Control Flow</div>
+      <div class="card-tag">diagram</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Control flow determines which code paths execute based on conditions and loops.</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:14px">
+        <div style="background:#1e3a5f;border:1px solid #38bdf8;border-radius:8px;padding:8px 20px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#38bdf8">▶ START</div>
+        <div style="color:var(--muted);font-size:18px">↓</div>
+        <div style="background:#2d1e3a;border:2px solid #a78bfa;clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);padding:18px 32px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#a78bfa;text-align:center">Condition?</div>
+        <div style="display:flex;gap:30px;align-items:flex-start;margin-top:4px">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="color:#34d399;font-family:'JetBrains Mono',monospace;font-size:10px">✓ True</div>
+            <div style="background:#1e3a2d;border:1px solid #34d399;border-radius:6px;padding:6px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#34d399">if block</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="color:#f472b6;font-family:'JetBrains Mono',monospace;font-size:10px">✗ False</div>
+            <div style="background:#3a1e2d;border:1px solid #f472b6;border-radius:6px;padding:6px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#f472b6">else block</div>
+          </div>
+        </div>
+        <div style="color:var(--muted);font-size:18px;margin-top:4px">↓</div>
+        <div style="background:#1e3a2d;border:1px solid #34d399;border-radius:8px;padding:8px 20px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#34d399">⟲ Loop</div>
+        <div style="color:var(--muted);font-size:18px">↓</div>
+        <div style="background:#3a2d1e;border:1px solid #fb923c;border-radius:8px;padding:8px 20px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#fb923c">■ END</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. BOOLEAN -->
+  <div class="card c4 glow-card" id="boolean">
+    <div class="card-header">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">Boolean & Logic</div>
+      <div class="card-tag">True/False</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Boolean logic underpins all conditionals. Three operators: <code>and</code>, <code>or</code>, <code>not</code>.</div>
+      <div class="bool-grid">
+        <div class="bool-box" style="border-color:#34d39940;background:#34d39908">
+          <div class="bool-op">T and T</div>
+          <div class="bool-val" style="color:#34d399">True</div>
+        </div>
+        <div class="bool-box" style="border-color:#f472b640;background:#f472b608">
+          <div class="bool-op">T and F</div>
+          <div class="bool-val" style="color:#f472b6">False</div>
+        </div>
+        <div class="bool-box" style="border-color:#34d39940;background:#34d39908">
+          <div class="bool-op">T or F</div>
+          <div class="bool-val" style="color:#34d399">True</div>
+        </div>
+        <div class="bool-box" style="border-color:#f472b640;background:#f472b608">
+          <div class="bool-op">F or F</div>
+          <div class="bool-val" style="color:#f472b6">False</div>
+        </div>
+        <div class="bool-box" style="border-color:#38bdf840;background:#38bdf808">
+          <div class="bool-op">not True</div>
+          <div class="bool-val" style="color:#f472b6">False</div>
+        </div>
+        <div class="bool-box" style="border-color:#38bdf840;background:#38bdf808">
+          <div class="bool-op">not False</div>
+          <div class="bool-val" style="color:#34d399">True</div>
+        </div>
+      </div>
+      <div class="code-block" style="margin-top:12px">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">boolean.py</div></div>
+        <pre><span class="fn">print</span>(<span class="bool">True</span> <span class="kw">and</span> <span class="bool">False</span>)  <span class="cmt"># False</span>
+<span class="fn">print</span>(<span class="bool">True</span> <span class="kw">or</span>  <span class="bool">False</span>)  <span class="cmt"># True</span>
+<span class="fn">print</span>(<span class="kw">not</span> <span class="bool">True</span>)         <span class="cmt"># False</span>
+<span class="fn">print</span>(<span class="num">5</span> <span class="op">></span> <span class="num">3</span> <span class="kw">and</span> <span class="num">2</span> <span class="op"><</span> <span class="num">4</span>) <span class="cmt"># True</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. OPERATORS -->
+  <div class="card c5 glow-card" id="operators">
+    <div class="card-header">
+      <div class="card-icon">➕</div>
+      <div class="card-title">Operators</div>
+      <div class="card-tag">arithmetic · compare · assign</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Python supports arithmetic, comparison, logical, and assignment operators.</div>
+      <table class="op-table">
+        <tr><th>Category</th><th>Operator</th><th>Example</th><th>Result</th></tr>
+        <tr><td>+</td><td>Add</td><td>5 + 3</td><td>8</td></tr>
+        <tr><td>-</td><td>Sub</td><td>5 - 3</td><td>2</td></tr>
+        <tr><td>*</td><td>Mul</td><td>4 * 3</td><td>12</td></tr>
+        <tr><td>/</td><td>Div</td><td>7 / 2</td><td>3.5</td></tr>
+        <tr><td>%</td><td>Mod</td><td>7 % 2</td><td>1</td></tr>
+        <tr><td>**</td><td>Pow</td><td>2**8</td><td>256</td></tr>
+        <tr><td>//</td><td>Floor</td><td>7//2</td><td>3</td></tr>
+        <tr><td>==</td><td>Equal</td><td>5==5</td><td>True</td></tr>
+        <tr><td>!=</td><td>Not eq</td><td>5!=3</td><td>True</td></tr>
+        <tr><td>+=</td><td>Inc</td><td>x+=1</td><td>x=x+1</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 12. IF / ELIF / ELSE -->
+  <div class="card c6 glow-card" id="ifelse">
+    <div class="card-header">
+      <div class="card-icon">🔵</div>
+      <div class="card-title">if / elif / else</div>
+      <div class="card-tag">branching</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Branching based on conditions. Python uses indentation (4 spaces) to define blocks.</div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin:12px 0">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#1e3a5f;border:1px solid #38bdf8;border-radius:6px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#38bdf8;min-width:70px">if</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">First condition → runs if True</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#2d1e3a;border:1px solid #a78bfa;border-radius:6px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#a78bfa;min-width:70px">elif</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">Additional check if previous failed</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="background:#3a1e2d;border:1px solid #f472b6;border-radius:6px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#f472b6;min-width:70px">else</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">Fallback — all others failed</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">ifelse.py</div></div>
+        <pre><span class="var">score</span> <span class="op">=</span> <span class="num">75</span>
+
+<span class="kw">if</span> <span class="var">score</span> <span class="op">>=</span> <span class="num">90</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"Grade: A"</span>)
+<span class="kw">elif</span> <span class="var">score</span> <span class="op">>=</span> <span class="num">70</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"Grade: B"</span>)
+<span class="kw">elif</span> <span class="var">score</span> <span class="op">>=</span> <span class="num">50</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"Grade: C"</span>)
+<span class="kw">else</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"Grade: F"</span>)</pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        Grade: B
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. BREAK -->
+  <div class="card c1 glow-card" id="break">
+    <div class="card-header">
+      <div class="card-icon">🛑</div>
+      <div class="card-title">Break & Continue</div>
+      <div class="card-tag">loop control</div>
+    </div>
+    <div class="card-body">
+      <div class="desc"><code>break</code> exits the loop entirely. <code>continue</code> skips to the next iteration.</div>
+      <div style="display:flex;gap:10px;margin:12px 0">
+        <div style="flex:1;background:#1e3a5f;border:1px solid #38bdf840;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#38bdf8;margin-bottom:6px">break</div>
+          <div style="color:var(--muted)">① → ② → ③ →<br><span style="color:#f472b6">■ STOP</span></div>
+        </div>
+        <div style="flex:1;background:#2d1e3a;border:1px solid #a78bfa40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#a78bfa;margin-bottom:6px">continue</div>
+          <div style="color:var(--muted)">① → ② →<br><span style="color:#facc15">⤴ SKIP</span> → ④</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">break.py</div></div>
+        <pre><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>)<span class="op">:</span>
+    <span class="kw">if</span> <span class="var">i</span> <span class="op">==</span> <span class="num">5</span><span class="op">:</span>
+        <span class="kw">break</span>        <span class="cmt"># stop at 5</span>
+    <span class="fn">print</span>(<span class="var">i</span>, end<span class="op">=</span><span class="str">" "</span>)
+
+<span class="fn">print</span>()
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">6</span>)<span class="op">:</span>
+    <span class="kw">if</span> <span class="var">i</span> <span class="op">==</span> <span class="num">3</span><span class="op">:</span>
+        <span class="kw">continue</span>     <span class="cmt"># skip 3</span>
+    <span class="fn">print</span>(<span class="var">i</span>, end<span class="op">=</span><span class="str">" "</span>)</pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        0 1 2 3 4<br>0 1 2 4 5
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. FOR LOOP -->
+  <div class="card c2 glow-card" id="for">
+    <div class="card-header">
+      <div class="card-icon">🔁</div>
+      <div class="card-title">For Loop</div>
+      <div class="card-tag">iteration</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Iterates over any sequence — range, list, string, dict, etc.</div>
+      <div class="loop-vis">
+        <div class="loop-cell" style="background:#1e3a5f;border-color:#38bdf8;color:#38bdf8">0</div>
+        <div class="loop-cell" style="background:#2d1e3a;border-color:#a78bfa;color:#a78bfa">1</div>
+        <div class="loop-cell" style="background:#1e3a2d;border-color:#34d399;color:#34d399">2</div>
+        <div class="loop-cell" style="background:#3a2d1e;border-color:#fb923c;color:#fb923c">3</div>
+        <div class="loop-cell" style="background:#3a1e2d;border-color:#f472b6;color:#f472b6">4</div>
+      </div>
+      <div class="code-block" style="margin-top:12px">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">for.py</div></div>
+        <pre><span class="cmt"># range</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>)<span class="op">:</span>
+    <span class="fn">print</span>(<span class="var">i</span>, end<span class="op">=</span><span class="str">" "</span>)
+
+<span class="cmt"># list iteration</span>
+<span class="var">fruits</span> <span class="op">=</span> [<span class="str">"apple"</span>, <span class="str">"mango"</span>, <span class="str">"grape"</span>]
+<span class="kw">for</span> <span class="var">f</span> <span class="kw">in</span> <span class="var">fruits</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="var">f</span>)
+
+<span class="cmt"># enumerate</span>
+<span class="kw">for</span> <span class="var">idx</span>, <span class="var">val</span> <span class="kw">in</span> <span class="fn">enumerate</span>(<span class="var">fruits</span>)<span class="op">:</span>
+    <span class="fn">print</span>(<span class="var">idx</span>, <span class="var">val</span>)</pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        0 1 2 3 4<br>apple &nbsp;mango &nbsp;grape<br>0 apple &nbsp;1 mango &nbsp;2 grape
+      </div>
+    </div>
+  </div>
+
+  <!-- 15. WHILE LOOP -->
+  <div class="card c3 glow-card" id="while">
+    <div class="card-header">
+      <div class="card-icon">🔄</div>
+      <div class="card-title">While Loop</div>
+      <div class="card-tag">condition-based</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">Repeats as long as the condition is <code>True</code>. Be careful of infinite loops!</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:12px 0">
+        <div style="background:#1e3a2d;border:1px solid #34d399;border-radius:8px;padding:7px 18px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#34d399">i = 0</div>
+        <div style="color:var(--muted)">↓</div>
+        <div style="background:#2d1e3a;border:2px solid #a78bfa;clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);padding:16px 28px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#a78bfa;text-align:center">i &lt; 5?</div>
+        <div style="display:flex;gap:24px;margin-top:4px">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+            <span style="color:#34d399;font-size:10px;font-family:'JetBrains Mono',monospace">True ✓</span>
+            <div style="background:#1e3a2d;border:1px solid #34d399;border-radius:6px;padding:5px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#34d399">print(i)</div>
+            <div style="background:#1e3a2d;border:1px solid #34d399;border-radius:6px;padding:5px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#34d399">i += 1</div>
+            <span style="color:#34d399;font-size:14px">↺</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+            <span style="color:#f472b6;font-size:10px;font-family:'JetBrains Mono',monospace">False ✗</span>
+            <div style="background:#3a1e2d;border:1px solid #f472b6;border-radius:6px;padding:5px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#f472b6">■ EXIT</div>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">while.py</div></div>
+        <pre><span class="var">i</span> <span class="op">=</span> <span class="num">0</span>
+<span class="kw">while</span> <span class="var">i</span> <span class="op"><</span> <span class="num">5</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="var">i</span>, end<span class="op">=</span><span class="str">" "</span>)
+    <span class="var">i</span> <span class="op">+=</span> <span class="num">1</span></pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        0 1 2 3 4
+      </div>
+    </div>
+  </div>
+
+  <!-- 16. NESTED LOOPS -->
+  <div class="card c4 glow-card" id="nested">
+    <div class="card-header">
+      <div class="card-icon">⬛</div>
+      <div class="card-title">Nested Loops</div>
+      <div class="card-tag">loop in loop</div>
+    </div>
+    <div class="card-body">
+      <div class="desc">A loop inside another loop. The inner loop runs fully for every iteration of the outer loop.</div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:6px">Outer(i) × Inner(j) = 3×3 grid:</div>
+        <div class="nested-grid">
+          <div class="nested-cell" style="background:#1e3a5f;border-color:#38bdf840;color:#38bdf8;animation-delay:0.9s">0,0</div>
+          <div class="nested-cell" style="background:#1e3a5f;border-color:#38bdf840;color:#38bdf8;animation-delay:1.0s">0,1</div>
+          <div class="nested-cell" style="background:#1e3a5f;border-color:#38bdf840;color:#38bdf8;animation-delay:1.1s">0,2</div>
+          <div class="nested-cell" style="background:#2d1e3a;border-color:#a78bfa40;color:#a78bfa;animation-delay:1.2s">1,0</div>
+          <div class="nested-cell" style="background:#2d1e3a;border-color:#a78bfa40;color:#a78bfa;animation-delay:1.3s">1,1</div>
+          <div class="nested-cell" style="background:#2d1e3a;border-color:#a78bfa40;color:#a78bfa;animation-delay:1.4s">1,2</div>
+          <div class="nested-cell" style="background:#1e3a2d;border-color:#34d39940;color:#34d399;animation-delay:1.5s">2,0</div>
+          <div class="nested-cell" style="background:#1e3a2d;border-color:#34d39940;color:#34d399;animation-delay:1.6s">2,1</div>
+          <div class="nested-cell" style="background:#1e3a2d;border-color:#34d39940;color:#34d399;animation-delay:1.7s">2,2</div>
+        </div>
+      </div>
+      <div class="code-block" style="margin-top:14px">
+        <div class="code-top"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><div class="code-label">nested.py</div></div>
+        <pre><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">3</span>)<span class="op">:</span>       <span class="cmt"># outer</span>
+    <span class="kw">for</span> <span class="var">j</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">3</span>)<span class="op">:</span>   <span class="cmt"># inner</span>
+        <span class="fn">print</span>(<span class="str">f"<span class="op">{</span><span class="var">i</span><span class="op">}</span>,<span class="op">{</span><span class="var">j</span><span class="op">}</span>"</span>, end<span class="op">=</span><span class="str">" "</span>)
+    <span class="fn">print</span>()  <span class="cmt"># newline after inner</span></pre>
+      </div>
+      <div class="output-box">
+        <div class="output-label">▶ Output</div>
+        0,0 0,1 0,2<br>1,0 1,1 1,2<br>2,0 2,1 2,2
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. SUMMARY CHEATSHEET -->
+  <div class="card" style="grid-column: 1 / -1; border-color:#2a3a5c; animation-delay:0.9s">
+    <div class="card-header">
+      <div class="card-icon" style="background:#38bdf815">📋</div>
+      <div class="card-title" style="color:#38bdf8">Quick Cheatsheet — All Concepts</div>
+      <div class="card-tag" style="background:#38bdf812;color:#38bdf8;border-color:#38bdf830">reference</div>
+    </div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px">
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#38bdf8;margin-bottom:4px">Comments</div>
+          <div style="color:#546e7a"># comment<br>"""docstring"""</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#a78bfa;margin-bottom:4px">Print</div>
+          <div style="color:#546e7a">print("hello")<br>print(f"{var}")</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#34d399;margin-bottom:4px">Variables</div>
+          <div style="color:#546e7a">x = 10<br>name = "Ada"</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#fb923c;margin-bottom:4px">Input</div>
+          <div style="color:#546e7a">input("msg")<br>int(input())</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#f472b6;margin-bottom:4px">If/Elif/Else</div>
+          <div style="color:#546e7a">if x > 5:<br>&nbsp;&nbsp;...<br>elif ...: else:</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#facc15;margin-bottom:4px">For Loop</div>
+          <div style="color:#546e7a">for i in range(5):<br>&nbsp;&nbsp;print(i)</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#38bdf8;margin-bottom:4px">While Loop</div>
+          <div style="color:#546e7a">while x < 5:<br>&nbsp;&nbsp;x += 1</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#a78bfa;margin-bottom:4px">Break/Continue</div>
+          <div style="color:#546e7a">break # exit<br>continue # skip</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#34d399;margin-bottom:4px">Math</div>
+          <div style="color:#546e7a">import math<br>math.sqrt(16)</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #1e2d40;border-radius:8px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px">
+          <div style="color:#fb923c;margin-bottom:4px">Boolean</div>
+          <div style="color:#546e7a">and, or, not<br>True, False</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  🐍 Python Visual Guide &nbsp;·&nbsp; All concepts with animated diagrams &nbsp;·&nbsp; Made with ❤️
+</footer>
+
+</body>
+</html>
